@@ -1,6 +1,7 @@
 package bancocrudspringboot.controller;
 
 import bancocrudspringboot.model.Cartao;
+import bancocrudspringboot.model.Usuario;
 import bancocrudspringboot.repository.CartaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +25,13 @@ public class CartaoController {
 
 	@GetMapping("/cartoes")
 	@ResponseStatus(HttpStatus.OK)
-	public List<Cartao> buscarCartoesUsuario(@RequestParam Long id_usuario) {
-		return this.cartaoRepository.findCardsByUser(id_usuario);
+	public List<Cartao> buscarCartoesUsuario(@RequestBody Usuario usuario) {
+		return this.cartaoRepository.findCartaoByUsuario(usuario.getId());
 	}
 
-    @PostMapping("/cartoes")
-	@ResponseStatus(HttpStatus.OK)
-	public List<Cartao> postAddCartao() {
-		return this.cartaoRepository.findAll();
+	@PostMapping("/cartoes")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cartao adicionarCartao(@RequestBody Cartao cartao){
+		return this.cartaoRepository.save(cartao);
 	}
 }

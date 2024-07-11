@@ -16,6 +16,7 @@ public class Usuario {
     private String telefone;
     private String senha;
     private String cidade;
+    private Double saldo;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

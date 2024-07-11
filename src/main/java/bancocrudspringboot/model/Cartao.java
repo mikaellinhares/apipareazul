@@ -18,8 +18,8 @@ public class Cartao {
     private String validade;
     private int cvv;
 
-    @Column(name = "id_usuario")
-    private Long id_usuario;
+    @Column(name = "usuario")
+    private long usuario;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
