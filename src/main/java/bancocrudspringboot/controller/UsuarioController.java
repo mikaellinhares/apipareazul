@@ -1,6 +1,7 @@
 package bancocrudspringboot.controller;
 
 import bancocrudspringboot.model.Cartao;
+import bancocrudspringboot.repository.CartaoRepository;
 import bancocrudspringboot.model.Usuario;
 import bancocrudspringboot.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private CartaoRepository cartaoRepository;
 
 	@GetMapping("/usuarios")
 	@ResponseStatus(HttpStatus.OK)
@@ -68,12 +72,18 @@ public class UsuarioController {
 	@PutMapping("/usuarios/saldo/adicionar")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Usuario> adicionarSaldo(@RequestBody AdicionarSaldoRequest dados){
-		Usuario usuario = this.usuarioRepository.findById(dados.usuario);
-		// Optional<Cartao> cartao = this.cartaoRepository.findById(dados.cartao);
-		//
+		Optional<Usuario> usuario = this.usuarioRepository.findById(dados.usuario);
+		Optional<Cartao> cartao = this.cartaoRepository.findById(dados.cartao);
+
+		List<Cartao> cartoesUsuario = this.cartaoRepository.findCartaoByUsuario(dados.usuario);
+
+		if (cartoesUsuario.contains(cartao) != true) {
+			System.out.println("Cartão não cadastrado para o usuário");
+		}
+		
 		usuario.setSaldo(dados.valor);
 		ResponseEntity.ok(this.cartaoRepository.save(cadastro));
-		//
+		
 		return this.usuarioRepository.save(cartao);
 	}
 }
